@@ -1,0 +1,10 @@
+# environment variables
+.env
+
+# temporary files
+tmp
+
+# binary
+main
+
+.DS_Store 
