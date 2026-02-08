@@ -62,6 +62,8 @@ func run() error {
 
 	srv, _ := rest.NewServer(cfg, val, db)
 
+	// TODO: Initiates features
+
 	shutdownErrCh := make(chan error, 1)
 
 	go shutdown(ctx, shutdownErrCh, srv, db)
