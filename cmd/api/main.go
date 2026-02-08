@@ -2,7 +2,6 @@ package main
 
 import (
 	"HATCH_APP/config"
-	"HATCH_APP/internal/note"
 	"HATCH_APP/pkg/http/rest"
 
 	"HATCH_APP/pkg/db/postgres"
@@ -61,17 +60,7 @@ func run() error {
 
 	val := validator.New()
 
-	srv, r := rest.NewServer(cfg, val, db)
-
-	log.Info("note: creating module...")
-
-	if err := note.Register(r, db); err != nil {
-		log.Error("note: module error", "error", err)
-
-		return err
-	}
-
-	log.Info("note: module created")
+	srv, _ := rest.NewServer(cfg, val, db)
 
 	shutdownErrCh := make(chan error, 1)
 

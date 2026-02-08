@@ -1,42 +1,41 @@
-# 🧠 AI Agent Context
+# Agent Context
 
-> **Quick Start:** Read the main README.md first for full architecture details.
+> **Quick start:** skimming `README.md` tells you everything about the batteries already wired in.
 
 ---
 
-## What is Hatch?
+## Hatch in one sentence
 
-A **production-ready Go template** focused on:
-- **Modularity** - Self-contained features
-- **Clarity** - Flat structure, explicit dependencies
-- **Speed** - Ship features fast without fighting architecture
+A flat Go starter that ships the boring infrastructure (HTTP server, validation, logging, Postgres, Docker, CI) and lets you model features however you want under `internal/`.
 
 ---
 
 ## Core Rules
 
-### ✅ Always Do
-- Keep changes **inside the module** you're working on
-- Follow existing patterns and naming
-- Respect dependency flow
-- Test every use case
-- Keep files small and focused
+### Always Do
 
-### 🚫 Never Do
-- Add new architectural layers
-- Bypass use cases (handler → provider directly)
-- Cross-import between modules
-- Use global vars or `panic()`
-- Refactor unrelated code
+- Work inside the package you touched (usually something under `internal/` or `pkg/`)
+- Follow existing naming/import patterns; reuse the shared batteries instead of rebuilding them
+- Keep dependencies explicit: pass `*sqlx.DB`, validators, configs through constructors
+- Add/adjust tests or probes when behavior changes
+- Keep files small and focused; split helpers when they stop being obvious
 
----
+### Never Do
 
-## When in Doubt
-
-1. Check **README.md** for full architecture explanation
-2. Look at `internal/note/` as reference implementation
-3. Ask: "What's the **simplest change** that keeps modules independent?"
+- Introduce new global layers or frameworks
+- Reach across packages implicitly (no hidden singletons, no circular deps)
+- Skip the provided middleware/telemetry wiring when exposing HTTP handlers
+- Use `panic()`/globals for control flow
+- Refactor unrelated areas just to “clean up”
 
 ---
 
-**Remember:** Hatch is not a framework — it's a clear, idiomatic Go foundation. Keep it simple.
+## When in doubt
+
+1. Read `README.md` for the latest project map and workflow
+2. Inspect the relevant `pkg/` helper before inventing a new one (validator, o11y, db, rest server)
+3. Ask: “What’s the simplest change that keeps things explicit and easy to extract later?”
+
+---
+
+**Remember:** Hatch is batteries included, architecture optional. Keep it simple and flat.
