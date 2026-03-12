@@ -3,8 +3,8 @@ package main
 import (
 	"HATCH_APP/config"
 	"HATCH_APP/pkg/database"
-	"HATCH_APP/pkg/http/rest"
 	"HATCH_APP/pkg/o11y"
+	"HATCH_APP/pkg/transport/httpx"
 	"HATCH_APP/pkg/validator"
 	"context"
 	"errors"
@@ -59,7 +59,9 @@ func run() error {
 
 	val := validator.New()
 
-	srv, _ := rest.NewServer(cfg, val, db)
+	srv, _ := httpx.NewServer(cfg.RestServerPort, val, httpx.External{
+		DB: db,
+	})
 
 	// TODO: Initiates features
 
@@ -92,7 +94,7 @@ func run() error {
 func shutdown(
 	ctx context.Context,
 	errShutdown chan error,
-	srv *rest.Server,
+	srv *httpx.Server,
 	db *sqlx.DB,
 ) {
 	<-ctx.Done()
